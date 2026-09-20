@@ -1,7 +1,7 @@
 {
-  "name": "FRACTURED: The Darkness",
-  "short_name": "FRACTURED",
-  "start_url": "./index.html?v=3.0.2-character",
+  "name": "F.C.D",
+  "short_name": "F.C.D",
+  "start_url": "./index.html?v=fcd-3.1",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050407",

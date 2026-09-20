@@ -1,3 +1,3 @@
-# FRACTURED: The Darkness v3.0.2
+# F.C.D v3.1
 
-Fixes the character/enemy disappearance caused by undefined movement input producing NaN coordinates.
+Pure Blood/Hybrid creator with 10 bloodlines (45 unique two-race pairings) and six visually distinct class equipment sets.
