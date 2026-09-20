@@ -1,3 +1,3 @@
-# FRACTURED: The Darkness v3.0.1
+# FRACTURED: The Darkness v3.0.2
 
-Visible-character and iPhone viewport hotfix.
+Fixes the character/enemy disappearance caused by undefined movement input producing NaN coordinates.
