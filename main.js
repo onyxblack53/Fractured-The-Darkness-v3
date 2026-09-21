@@ -1,8 +1,67 @@
-let menuPaused=false;
-function syncBloodlineAbilities(){
- const angel=hasRace("Angel");
- document.querySelectorAll('[data-k="a1"],[data-k="a2"],[data-k="a3"]').forEach(b=>{
-  b.disabled=!angel;b.style.opacity=angel?"1":".22";b.style.filter=angel?"none":"grayscale(1)";
- });
+import { Player } from "./player.js";
+import { bindControls } from "./controls.js";
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d",{alpha:false});
+ctx.imageSmoothingEnabled=true;
+ctx.imageSmoothingQuality="high";
+
+const player=new Player(canvas.width*.5,canvas.height*.79);
+bindControls(player);
+
+const hpFill=document.getElementById("hp-fill");
+const staminaFill=document.getElementById("stamina-fill");
+const stateLabel=document.getElementById("state-label");
+
+function resize(){
+  const ratio=Math.min(devicePixelRatio||1,2);
+  const cssW=innerWidth, cssH=innerHeight;
+  canvas.width=Math.round(cssW*ratio);
+  canvas.height=Math.round(cssH*ratio);
+  canvas.style.width=cssW+"px"; canvas.style.height=cssH+"px";
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+  player.groundY=cssH*.79;
+  if(player.onGround)player.y=player.groundY;
 }
-function abilityFX(){let hx=Math.max(55,Math.min(W*.42,P.x));if(P.guard>0){ctx.save();ctx.globalAlpha=.28+.08*Math.sin(performance.now()/90);ctx.strokeStyle="#fff0a6";ctx.lineWidth=3;ctx.shadowBlur=14;ctx.shadowColor="#ffe778";ctx.beginPath();ctx.arc(hx,P.y-38,44,0,Math.PI*2);ctx.stroke();ctx.restore()}if(P.abilityFlash>0){let a=Math.min(1,P.abilityFlash/.32);ctx.save();ctx.globalAlpha=.22*a;ctx.fillStyle="#fff3b0";ctx.beginPath();ctx.arc(hx,P.y-38,28+(1-a)*65,0,Math.PI*2);ctx.fill();ctx.restore()}for(const q of projectiles){let x=hx+(q.x-P.x);ctx.save();ctx.shadowBlur=16;ctx.shadowColor="#fff2a1";ctx.fillStyle="#fff6c9";ctx.beginPath();ctx.arc(x,q.y,7,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d9b85e";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-P.face*24,q.y);ctx.lineTo(x,q.y);ctx.stroke();ctx.restore()}}function draw(){bg();enemies.forEach(foe);hero();abilityFX()}function loop(t){let dt=Math.min(.033,(t-last)/1000||.016);last=t;if(started){syncBloodlineAbilities();if(!menuPaused){update(dt);CharacterAnim.update(dt)}draw()}requestAnimationFrame(loop)}
+window.addEventListener("resize",resize,{passive:true});
+resize();
+
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(.033,(now-last)/1000); last=now;
+
+  // Update.
+  player.update(dt);
+
+  // Background. Character itself is never drawn with geometric primitives.
+  const w=innerWidth,h=innerHeight;
+  const g=ctx.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,"#111218"); g.addColorStop(.65,"#090a0e"); g.addColorStop(1,"#050506");
+  ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+
+  // Ground plane only.
+  const gy=player.groundY+8;
+  const rg=ctx.createRadialGradient(player.x,gy,10,player.x,gy,260);
+  rg.addColorStop(0,"rgba(231,214,170,.20)");
+  rg.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=rg; ctx.fillRect(player.x-280,gy-50,560,100);
+
+  player.draw(ctx);
+
+  // Optional combat debug hitbox. Off by default.
+  if(window.FRACTURED_DEBUG_HITBOXES){
+    const hb=player.getWorldHitbox();
+    if(hb){ctx.strokeStyle="#ffef75";ctx.strokeRect(hb.x,hb.y,hb.w,hb.h)}
+  }
+
+  hpFill.style.width=`${(player.hp/player.maxHp)*100}%`;
+  staminaFill.style.width=`${(player.stamina/player.maxStamina)*100}%`;
+  stateLabel.textContent=player.state.toUpperCase();
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// Expose the player for integration/testing in the existing v3.4 project.
+window.FRACTURED = window.FRACTURED || {};
+window.FRACTURED.angelKnight = player;
