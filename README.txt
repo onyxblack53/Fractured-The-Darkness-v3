@@ -1,1 +1,1 @@
-F.C.D v5.3 exact ready pose: hand lowered to lower-chest/waist area; blade direction fixed to -135 degrees in Canvas, which makes the v5.1 outward blade geometry point diagonally up and outward. Direction mirroring and 8-hit combo remain.
+v5.4: fluid sword combo interpolation. Forward swings stop at waist height. Attacks 3, 6, 8 are full counter-clockwise upward rotations returning to the locked 45-degree ready pose. Wider combo queue window.
