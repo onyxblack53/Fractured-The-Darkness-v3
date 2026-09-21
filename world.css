@@ -1,0 +1,74 @@
+/* FRACTURED: The Darkness — Detailed World Renderer v1 */
+
+.fractured-world {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #05040a;
+  isolation: isolate;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.fractured-world__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Keep the artwork crisp rather than synthesizing a canvas scene. */
+  image-rendering: auto;
+
+  transform: scale(1.015);
+  opacity: 0;
+  transition: opacity 420ms ease;
+  pointer-events: none;
+}
+
+.fractured-world.is-ready .fractured-world__image {
+  opacity: 1;
+}
+
+/* Cinematic color grading only; no procedural scenery. */
+.fractured-world__grade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(3, 1, 8, 0.03) 0%,
+      rgba(4, 2, 8, 0.02) 48%,
+      rgba(1, 1, 3, 0.36) 100%
+    );
+  mix-blend-mode: multiply;
+}
+
+.fractured-world__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 110px rgba(0, 0, 0, 0.44),
+    inset 0 -140px 130px rgba(0, 0, 0, 0.44);
+}
+
+.fractured-world__actors,
+.fractured-world__effects {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.fractured-world__actors {
+  z-index: 5;
+  pointer-events: none;
+}
+
+.fractured-world__effects {
+  z-index: 6;
+  pointer-events: none;
+}
