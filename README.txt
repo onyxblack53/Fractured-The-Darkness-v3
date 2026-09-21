@@ -1,1 +1,1 @@
-F.C.D v5.2: lowered sword arm with blade held diagonally upward and outward, matching the approved pose. Directional facing and 8-hit sword combo retained.
+F.C.D v5.3 exact ready pose: hand lowered to lower-chest/waist area; blade direction fixed to -135 degrees in Canvas, which makes the v5.1 outward blade geometry point diagonally up and outward. Direction mirroring and 8-hit combo remain.
