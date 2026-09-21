@@ -1,1 +1,5 @@
-v5.4: fluid sword combo interpolation. Forward swings stop at waist height. Attacks 3, 6, 8 are full counter-clockwise upward rotations returning to the locked 45-degree ready pose. Wider combo queue window.
+F.C.D v5.6 — Angel bloodline ability lock.
+The three current celestial abilities only execute when hasRace("Angel") is true.
+This includes a pure Angel and an Angel hybrid.
+Non-Angel characters cannot activate them, and their three ability buttons are visibly disabled.
+Sword combat remains available normally.

@@ -1,1 +1,7 @@
-function draw(){bg();enemies.forEach(foe);hero()}function loop(t){let dt=Math.min(.033,(t-last)/1000||.016);last=t;if(started){update(dt);CharacterAnim.update(dt);draw()}requestAnimationFrame(loop)}
+function syncBloodlineAbilities(){
+ const angel=hasRace("Angel");
+ document.querySelectorAll('[data-k="a1"],[data-k="a2"],[data-k="a3"]').forEach(b=>{
+  b.disabled=!angel;b.style.opacity=angel?"1":".22";b.style.filter=angel?"none":"grayscale(1)";
+ });
+}
+function abilityFX(){let hx=Math.max(55,Math.min(W*.42,P.x));if(P.guard>0){ctx.save();ctx.globalAlpha=.28+.08*Math.sin(performance.now()/90);ctx.strokeStyle="#fff0a6";ctx.lineWidth=3;ctx.shadowBlur=14;ctx.shadowColor="#ffe778";ctx.beginPath();ctx.arc(hx,P.y-38,44,0,Math.PI*2);ctx.stroke();ctx.restore()}if(P.abilityFlash>0){let a=Math.min(1,P.abilityFlash/.32);ctx.save();ctx.globalAlpha=.22*a;ctx.fillStyle="#fff3b0";ctx.beginPath();ctx.arc(hx,P.y-38,28+(1-a)*65,0,Math.PI*2);ctx.fill();ctx.restore()}for(const q of projectiles){let x=hx+(q.x-P.x);ctx.save();ctx.shadowBlur=16;ctx.shadowColor="#fff2a1";ctx.fillStyle="#fff6c9";ctx.beginPath();ctx.arc(x,q.y,7,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d9b85e";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-P.face*24,q.y);ctx.lineTo(x,q.y);ctx.stroke();ctx.restore()}}function draw(){bg();enemies.forEach(foe);hero();abilityFX()}function loop(t){let dt=Math.min(.033,(t-last)/1000||.016);last=t;if(started){syncBloodlineAbilities();update(dt);CharacterAnim.update(dt);draw()}requestAnimationFrame(loop)}
