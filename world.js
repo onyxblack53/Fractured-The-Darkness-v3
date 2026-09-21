@@ -1,35 +1,22 @@
-const WorldFX={stars:[],motes:[],init(){if(this.stars.length)return;for(let i=0;i<90;i++)this.stars.push({x:(i*83.17)%997,y:(i*47.31)%311,a:.15+(i%7)*.07,s:.4+(i%3)*.35});for(let i=0;i<38;i++)this.motes.push({x:(i*71)%911,y:(i*113)%503,v:.8+(i%5)*.17,a:.08+(i%6)*.025})}};
-function poly(p,f){ctx.fillStyle=f;ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);for(let i=1;i<p.length;i++)ctx.lineTo(p[i][0],p[i][1]);ctx.closePath();ctx.fill()}
+const WORLD_BG=new Image();WORLD_BG.src="broken-castle-bg.jpg";
 function bg(){
- WorldFX.init();const y=gy(),cam=P?P.x:0,t=performance.now()/1000;
- let sky=ctx.createLinearGradient(0,0,0,y);sky.addColorStop(0,"#03040a");sky.addColorStop(.28,"#100713");sky.addColorStop(.57,"#260b16");sky.addColorStop(.82,"#17101a");sky.addColorStop(1,"#08090d");ctx.fillStyle=sky;ctx.fillRect(0,0,W,y);
- // faint stars behind weather
- ctx.save();for(const s of WorldFX.stars){let x=(s.x/W*W-cam*.008)%W;ctx.globalAlpha=s.a*(.75+.25*Math.sin(t*.35+s.x));ctx.fillStyle="#d9cfdf";ctx.fillRect(x,s.y/H*H*.48,s.s,s.s)}ctx.restore();
- // blood moon with limb darkening, craters, haze
- const mx=W*.245,my=H*.205,mr=Math.min(W,H)*.125;ctx.save();ctx.shadowBlur=38;ctx.shadowColor="#8f0b19";let mg=ctx.createRadialGradient(mx-mr*.25,my-mr*.25,mr*.08,mx,my,mr);mg.addColorStop(0,"#ef3b3f");mg.addColorStop(.48,"#c61e2d");mg.addColorStop(.83,"#94101f");mg.addColorStop(1,"#4b0710");ctx.fillStyle=mg;ctx.beginPath();ctx.arc(mx,my,mr,0,7);ctx.fill();ctx.shadowBlur=0;ctx.globalAlpha=.23;for(let i=0;i<34;i++){let a=i*2.399,r=mr*(.12+(i%11)*.071),rr=mr*(.018+(i%6)*.014);ctx.fillStyle=i%3?"#570914":"#f75b55";ctx.beginPath();ctx.ellipse(mx+Math.cos(a)*r,my+Math.sin(a)*r,rr*1.5,rr,.3*i,0,7);ctx.fill()}ctx.restore();
- // multi-scale storm clouds with red under-light
- function cloudLayer(seed,yy,par,alpha,dark,under){ctx.save();let off=-((cam*par+t*(2+seed))%(W/5));for(let i=-2;i<8;i++){let cx=off+i*W/5,cy=yy+Math.sin(i*1.73+seed)*18;for(let j=0;j<8;j++){let xx=cx+(j-3.5)*25,rr=38+(j%4)*14;ctx.globalAlpha=alpha;ctx.fillStyle=dark;ctx.beginPath();ctx.ellipse(xx,cy+Math.sin(j*2.1)*8,rr,16+(j%3)*6,-.08,0,7);ctx.fill();ctx.globalAlpha=alpha*.22;ctx.fillStyle=under;ctx.beginPath();ctx.ellipse(xx,cy+13,rr*.82,7,0,0,7);ctx.fill()}}ctx.restore()}
- cloudLayer(1,H*.17,.009,.34,"#1b0c16","#9b1b2b");cloudLayer(2,H*.29,.018,.52,"#160c16","#751525");cloudLayer(3,H*.39,.032,.66,"#0b0b11","#4f1422");
- // dimensional purple rift + branching cracks + energy glow
- const rx=W*.70;ctx.save();ctx.globalCompositeOperation="screen";ctx.shadowBlur=24;ctx.shadowColor="#8e31ff";for(let pass=0;pass<3;pass++){ctx.strokeStyle=pass===0?"#4a157d":pass===1?"#8d3ee8":"#d69cff";ctx.lineWidth=pass===0?12:pass===1?5:1.4;ctx.globalAlpha=pass===0?.22:pass===1?.62:.95;ctx.beginPath();ctx.moveTo(rx-10,-8);for(let i=0;i<13;i++){let yy=i*20,xx=rx+Math.sin(i*2.6)*10+Math.sin(i*.7)*5;ctx.lineTo(xx,yy)}ctx.stroke()}for(let i=2;i<12;i++){let yy=i*20,xx=rx+Math.sin(i*2.6)*10+Math.sin(i*.7)*5,dir=i%2?1:-1;ctx.globalAlpha=.55;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx,yy);ctx.lineTo(xx+dir*(18+(i%4)*8),yy-11);ctx.lineTo(xx+dir*(28+(i%3)*11),yy-25);ctx.stroke()}for(let i=0;i<14;i++){ctx.globalAlpha=.1+.08*Math.sin(t*3+i);ctx.strokeStyle="#c779ff";ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(rx+Math.sin(i)*7,15+i*17,20+i*1.8,4+i*.2,i*.16,0,7);ctx.stroke()}ctx.restore();
- // mountain silhouettes, three parallax depths
- function mountains(base,amp,col,par,step){ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(-20,y);for(let x=-20;x<=W+step;x+=step){let wx=x+cam*par;let h=amp*(.55+.25*Math.sin(wx*.013)+.2*Math.sin(wx*.037));ctx.lineTo(x,base-h)}ctx.lineTo(W+20,y);ctx.fill()}
- mountains(y*.72,100,"#17131b",.025,32);mountains(y*.78,125,"#0d1016",.05,28);mountains(y*.83,100,"#090c11",.08,25);
- // distant gothic castle with architecture, bridge, windows, spires
- function castle(cx,base,s){ctx.save();ctx.translate(cx-cam*.075,base);ctx.scale(s,s);ctx.fillStyle="#08090d";ctx.fillRect(-100,-63,200,63);ctx.fillRect(-76,-101,38,101);ctx.fillRect(38,-94,35,94);ctx.fillRect(-21,-137,42,137);for(const [x,h,w] of [[-77,150,44],[-20,195,48],[55,145,41],[89,116,30]]){ctx.fillRect(x-w/2,-h,w,h);poly([[x-w*.65,-h],[x,-h-50],[x+w*.65,-h]],"#07080c")}ctx.strokeStyle="#25212a";ctx.lineWidth=2;for(let yy=-56;yy>-180;yy-=16){ctx.beginPath();ctx.moveTo(-100,yy);ctx.lineTo(100,yy);ctx.stroke()}ctx.fillStyle="#b54931";ctx.shadowBlur=6;ctx.shadowColor="#c54a31";for(let x=-82;x<88;x+=18)for(let yy=-74;yy>-155;yy-=27){if((x+yy)%3){ctx.fillRect(x,yy,3,8)}}ctx.shadowBlur=0;ctx.fillStyle="#050609";for(let x=-98;x<100;x+=16)poly([[x,-63],[x+8,-76],[x+16,-63]],"#050609");ctx.restore()}
- castle(W*.80,y*.71,.64);
- // conifer forest layers
- function pine(x,base,h,col){ctx.fillStyle=col;ctx.fillRect(x-2,base-h*.65,4,h*.65);for(let k=0;k<7;k++){let yy=base-h+k*h*.105,ww=(k+1)*h*.055;poly([[x,yy],[x-ww,yy+h*.19],[x+ww,yy+h*.19]],col)}}
- for(let layer=0;layer<4;layer++){let par=.10+layer*.07,step=21+layer*5,base=y*(.84+layer*.025),col=["#12141a","#0d1014","#090b0e","#060709"][layer];for(let i=-3;i<W/step+5;i++){let wx=i*step-((cam*par)%step),h=85+layer*18+((i*37+layer*23)%55);pine(wx,base,h,col)}}
- // low fog sheets between forest and foreground
- ctx.save();for(let k=0;k<4;k++){ctx.globalAlpha=.055+k*.018;ctx.fillStyle=k%2?"#c0a7c9":"#8f829a";for(let i=-1;i<7;i++){let x=i*W/5-((cam*(.07+k*.025)-t*(3+k))%(W/5));ctx.beginPath();ctx.ellipse(x,y*.79+k*19,110+k*18,13+k*3,0,0,7);ctx.fill()}}ctx.restore();
- // ancient foreground trees with branching silhouettes
- function deadTree(x,base,s,seed){ctx.save();ctx.translate(x,base);ctx.scale(s,s);ctx.strokeStyle="#050508";ctx.lineCap="round";ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(0,7);ctx.bezierCurveTo(-9,-35,8,-79,-2,-145);ctx.stroke();let B=[[-3,-55,-42,-93],[-1,-73,43,-112],[-2,-98,-37,-138],[0,-119,32,-158],[-17,-80,-57,-74],[15,-99,58,-89]];for(let j=0;j<B.length;j++){let a=B[j];ctx.lineWidth=4-j*.3;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.quadraticCurveTo(a[2]*.65,a[3]+8,a[2],a[3]);ctx.stroke();ctx.lineWidth=1.8;for(let z=-1;z<=1;z+=2){ctx.beginPath();ctx.moveTo(a[2],a[3]);ctx.lineTo(a[2]+z*(11+((j+seed)%4)*3),a[3]-12-((j*5)%15));ctx.stroke()}}ctx.restore()}
- for(let i=0;i<6;i++)deadTree(((i*190-cam*.36)%(W+260))-100,y,0.68+(i%3)*.16,i);
- // ruined stone bridge: irregular blocks, cracks, moss
- ctx.fillStyle="#08080b";ctx.fillRect(0,y,W,H-y);let bw=48,bh=24;for(let row=0;row<7;row++){let off=(row%2)*24-((cam*.62)%bw);for(let x=-bw;x<W+bw;x+=bw){let xx=x+off,shade=13+((row*11+Math.floor(x/bw)*7)%9);ctx.fillStyle=`rgb(${shade},${shade-1},${shade+2})`;ctx.fillRect(xx,y+row*bh,bw-2,bh-2);ctx.strokeStyle="#3b333a";ctx.lineWidth=.7;ctx.strokeRect(xx,y+row*bh,bw-2,bh-2);if((row+Math.floor(x/bw))%4===0){ctx.strokeStyle="#211b20";ctx.beginPath();ctx.moveTo(xx+12,y+row*bh+3);ctx.lineTo(xx+20,y+row*bh+10);ctx.lineTo(xx+16,y+row*bh+18);ctx.stroke()}}}
- ctx.fillStyle="#292029";ctx.fillRect(0,y-7,W,7);ctx.fillStyle="#55424a";for(let x=-((cam*.62)%37);x<W;x+=37)ctx.fillRect(x,y-7,25,2);
- // grasses, roots, drifting embers/motes
- ctx.strokeStyle="#050507";for(let i=0;i<52;i++){let x=i*23-((cam*.73)%23),hh=8+(i*17)%31;ctx.lineWidth=1+(i%3)*.4;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+(i%2?8:-7),y-hh*.55,x+(i%3?10:-9),y-hh);ctx.stroke()}
- ctx.save();for(const m of WorldFX.motes){let x=(m.x-cam*.04)%W,yy=(m.y-t*8*m.v)%(y*.75);if(yy<0)yy+=y*.75;ctx.globalAlpha=m.a*(.5+.5*Math.sin(t*m.v+m.x));ctx.fillStyle=m.x%3?"#8b597e":"#c45d46";ctx.fillRect(x,yy,1.2,1.2)}ctx.restore();
+ const y=gy(),cam=P?P.x:0;
+ ctx.fillStyle="#07070b";ctx.fillRect(0,0,W,H);
+ if(WORLD_BG.complete&&WORLD_BG.naturalWidth){
+   const iw=WORLD_BG.naturalWidth,ih=WORLD_BG.naturalHeight;
+   // cover the gameplay sky/scene while keeping the bridge/player plane visible.
+   const scale=Math.max(W/iw,y/ih),sw=W/scale,sh=y/scale;
+   // subtle camera drift gives the static concept a game-world feel without distorting it.
+   const maxX=Math.max(0,iw-sw),sx=Math.min(maxX,Math.max(0,maxX*.5+(cam-300)*.018));
+   const sy=Math.max(0,(ih-sh)*.42);
+   ctx.drawImage(WORLD_BG,sx,sy,sw,sh,0,0,W,y);
+ } else {
+   let g=ctx.createLinearGradient(0,0,0,y);g.addColorStop(0,"#160711");g.addColorStop(1,"#08080d");
+   ctx.fillStyle=g;ctx.fillRect(0,0,W,y);
+ }
+ // collision/readability strip aligned to the foreground bridge
+ ctx.fillStyle="rgba(5,5,8,.32)";ctx.fillRect(0,y-5,W,5);
+ ctx.fillStyle="#08080b";ctx.fillRect(0,y,W,H-y);
+ ctx.strokeStyle="#332b31";ctx.lineWidth=1;
+ for(let row=0;row<5;row++){let off=(row%2)*24-((cam*.62)%48);for(let x=-48;x<W+48;x+=48)ctx.strokeRect(x+off,y+row*24,46,22)}
 }

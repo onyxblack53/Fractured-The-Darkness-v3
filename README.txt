@@ -1,2 +1,2 @@
-F.C.D v3.7 ULTRA WORLD CODE PATCH
-Code-only high-detail environment pass. Replace world.js, index.html, sw.js, main.js at repo root.
+F.C.D v3.8 EXACT CONCEPT BACKGROUND
+Upload all files in this ZIP to the repo root. broken-castle-bg.jpg is the exact user-provided concept image used as the in-game scenery. world.js renders it behind gameplay; no procedural redraw.
