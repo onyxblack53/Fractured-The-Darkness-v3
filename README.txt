@@ -1,2 +1,1 @@
-F.C.D v4.0 BACKGROUND
-Upload these files to repo root. world.js loads the exact supplied landscape as the game background. The image contains no character or bridge. Code draws a separate flat walkable bridge at gy().
+v5.0 combat patch. Upload these five code files to repo root over v4.3. Background/world.js and assets remain untouched. Adds left/right profile facing and an 8-move sword combo chain with timed hit windows.
