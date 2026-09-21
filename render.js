@@ -1,2 +1,1 @@
-const c=document.getElementById("c"),ctx=c.getContext("2d");let W,H,D=1;
-function resize(){let r=c.getBoundingClientRect();D=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;c.width=W*D;c.height=H*D;ctx.setTransform(D,0,0,D,0,0)}addEventListener("resize",resize);resize();
+const c=document.getElementById("c"),ctx=c.getContext("2d");let W,H,D=1;function resize(){let r=c.getBoundingClientRect();D=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;c.width=W*D;c.height=H*D;ctx.setTransform(D,0,0,D,0,0)}addEventListener("resize",resize);resize();
