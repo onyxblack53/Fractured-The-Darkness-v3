@@ -1,3 +1,3 @@
-# F.C.D v3.1
+# F.C.D v3.2 — Detail Pass
 
-Pure Blood/Hybrid creator with 10 bloodlines (45 unique two-race pairings) and six visually distinct class equipment sets.
+Upgraded character anatomy/equipment, layered race traits, detailed parallax Broken Castle environment, masonry play surface, atmosphere, and three distinct corrupted enemy designs.
