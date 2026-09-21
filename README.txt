@@ -1,2 +1,2 @@
-F.C.D v3.9 CODE-ONLY SCENE
-No background image asset. world.js reconstructs the reference composition in Canvas code: moon left, rift/castle right, forest/mist/water behind, and a perfectly flat ancient bridge aligned to gy() as the walkable plane.
+F.C.D v4.0 BACKGROUND
+Upload these files to repo root. world.js loads the exact supplied landscape as the game background. The image contains no character or bridge. Code draws a separate flat walkable bridge at gy().
