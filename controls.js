@@ -1,0 +1,1 @@
+document.querySelectorAll("[data-k]").forEach(b=>{let k=b.dataset.k;b.onpointerdown=e=>{e.preventDefault();keys[k]=true};["onpointerup","onpointercancel","onpointerleave"].forEach(n=>b[n]=()=>keys[k]=false)});
