@@ -1,26 +1,23 @@
-FRACTURED: THE DARKNESS — Angel Knight Web Build v2
+FRACTURED: THE DARKNESS — INTEGRATED v8
 
-DEPLOY ALL OF THESE TO THE SAME GITHUB PAGES FOLDER:
-  index.html
-  game.css
-  main.js
-  player.js
-  controls.js
-  angelKnightAnimations.js
-  angelKnightRenderer.js
-  assets/angel_knight_pose_sheet.png
+This build merges the new Start > Bloodline > Race > Class flow with the existing FRACTURED systems.
 
-If only index.html is uploaded, the HUD loads but the game/character does not.
-This build now shows a visible boot error if the atlas or JS asset structure is missing.
+PRESERVED / INTEGRATED
+- 10 races: Human, Orc, Elf, Dragonborn, Demon, Angel, Fallen Angel, Tiefling, Vampire, Werewolf
+- Full Blooded (1 race) and Half Blooded (2 races)
+- Classes: Knight, Mage, Witch, Samurai, Ronin, Ninja
+- Latest detailed Angel Knight pose-sheet renderer
+- Smooth idle / walk / run / crouch / jump / fall / land
+- 3-hit buffered sword combo, block, block-hit, dodge i-frames, heal, hit/death states
+- Current mobile control layout: one movement pad, jump, large dodge, attack/block/heal, abilities I-II-III
+- Separate Character and Inventory menu pages
+- Equipment, inventory, character stats and Angel bloodline resistance
+- Blood moon, distant castle, dark forest, purple sky fracture and atmospheric motes
+- Angel-only ability buttons remain bloodline gated
 
-Animation upgrades:
-- transform interpolation between atlas poses
-- eased transitions and state blending
-- 3-stage buffered sword combo
-- attack hit timing + sword arc VFX
-- jump anticipation / stretch / landing compression
-- dodge afterimages + i-frame timing
-- block impact flash
-- heal aura particles
-- locomotion secondary motion and dust
-- mobile + keyboard controls
+DEPLOYMENT
+Upload the CONTENTS of this folder to the root of a GitHub Pages repository.
+index.html must be at the published root.
+Do not upload only the ZIP if you expect GitHub Pages to run it.
+
+Note: This is a web prototype integration layer. The modular structure is intentionally kept so future world/enemy/quest systems can be extended without rewriting character creation.
