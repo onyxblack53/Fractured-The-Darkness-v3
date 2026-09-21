@@ -1,5 +1,1 @@
-F.C.D v5.6 — Angel bloodline ability lock.
-The three current celestial abilities only execute when hasRace("Angel") is true.
-This includes a pure Angel and an Angel hybrid.
-Non-Angel characters cannot activate them, and their three ability buttons are visibly disabled.
-Sword combat remains available normally.
+F.C.D v6.0: separate functional CHARACTER and INVENTORY pages based on the supplied reference layout. Character page has equipment slots, level/bloodline, computed core/combat/resistance stats. Inventory page has category filters, item grid and detailed selected-item panel. Character menu pauses gameplay. Existing v5.6 combat and Angel-only abilities retained.
