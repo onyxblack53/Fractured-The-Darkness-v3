@@ -1,2 +1,2 @@
-F.C.D v3.8 EXACT CONCEPT BACKGROUND
-Upload all files in this ZIP to the repo root. broken-castle-bg.jpg is the exact user-provided concept image used as the in-game scenery. world.js renders it behind gameplay; no procedural redraw.
+F.C.D v3.9 CODE-ONLY SCENE
+No background image asset. world.js reconstructs the reference composition in Canvas code: moon left, rift/castle right, forest/mist/water behind, and a perfectly flat ancient bridge aligned to gy() as the walkable plane.
