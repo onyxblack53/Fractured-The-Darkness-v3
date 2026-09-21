@@ -1,1 +1,1 @@
-F.C.D v5.1: sword blade geometry reversed at the hand so the sword points outward instead of crossing into the character's neck/throat. Direction mirroring and 8-hit combo system retained.
+F.C.D v5.2: lowered sword arm with blade held diagonally upward and outward, matching the approved pose. Directional facing and 8-hit sword combo retained.
