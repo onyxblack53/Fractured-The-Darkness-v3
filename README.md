@@ -1,3 +1,3 @@
-# F.C.D v3.2 — Detail Pass
+# F.C.D v3.2.1 — Start Screen Fix
 
-Upgraded character anatomy/equipment, layered race traits, detailed parallax Broken Castle environment, masonry play surface, atmosphere, and three distinct corrupted enemy designs.
+Fixes the JavaScript syntax error in the detailed enemy renderer that prevented TAP TO BEGIN from responding. Keeps the v3.2 detail pass intact.

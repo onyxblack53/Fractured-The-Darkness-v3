@@ -1,7 +1,7 @@
 {
   "name": "F.C.D",
   "short_name": "F.C.D",
-  "start_url": "./index.html?v=fcd-3.2-detail",
+  "start_url": "./index.html?v=fcd-3.2.1-start-fix",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050407",
