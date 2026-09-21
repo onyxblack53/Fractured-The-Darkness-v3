@@ -1,1 +1,2 @@
-F.C.D v4.2 — actual-image pixel-layer animation. The PNG layers are crops from the supplied artwork itself. world.js animates those real pixels; it does not generate replacement clouds, trees, waterfalls, or rift geometry.
+F.C.D v4.0 BACKGROUND
+Upload these files to repo root. world.js loads the exact supplied landscape as the game background. The image contains no character or bridge. Code draws a separate flat walkable bridge at gy().
