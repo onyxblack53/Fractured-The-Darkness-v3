@@ -1,1 +1,1 @@
-v5.0 combat patch. Upload these five code files to repo root over v4.3. Background/world.js and assets remain untouched. Adds left/right profile facing and an 8-move sword combo chain with timed hit windows.
+F.C.D v5.1: sword blade geometry reversed at the hand so the sword points outward instead of crossing into the character's neck/throat. Direction mirroring and 8-hit combo system retained.
