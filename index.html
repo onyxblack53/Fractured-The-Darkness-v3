@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#06050a">
-<title>FRACTURED: The Darkness — Integrated v8</title>
-<link rel="stylesheet" href="./game.css">
-<link rel="stylesheet" href="./menu.css">
+<title>FRACTURED: The Darkness — Integrated v8.1</title>
+<link rel="stylesheet" href="./game.css?v=8.1">
+<link rel="stylesheet" href="./menu.css?v=8.1">
 </head>
 <body>
 <div id="app">
+
   <section id="start-screen" class="flow-screen active center-screen">
     <div class="sigil">✦</div>
     <h1 class="logo">FRACTURED</h1>
@@ -50,13 +51,22 @@
     </div>
   </section>
 
+  <section id="loading-screen" class="flow-screen center-screen">
+    <div class="sigil loading-sigil">✦</div>
+    <h2 class="loading-title">ENTERING THE SHATTERED KINGDOM</h2>
+    <p id="loading-build">Preparing your bloodline...</p>
+    <div class="loading-track"><div id="loading-fill"></div></div>
+  </section>
+
   <main id="game-shell">
     <div id="world-art" aria-hidden="true">
-      <img id="world-background" src="./assets/shattered_kingdom_world.jpeg" alt="">
+      <img id="world-background" src="./assets/shattered_kingdom_world.jpeg?v=8.1" alt="">
       <div class="world-grade"></div>
       <div class="world-vignette"></div>
     </div>
+
     <canvas id="game"></canvas>
+
     <section id="hud">
       <div id="build-label">ANGEL KNIGHT</div>
       <div class="bar"><span>HP</span><div class="track"><div id="hp-fill"></div></div></div>
@@ -64,7 +74,10 @@
       <div id="state-label">IDLE</div>
     </section>
 
-    <div id="quest"><strong>THE SHATTERED KINGDOM</strong><span>Reach the abandoned cathedral beneath the Blood Moon.</span></div>
+    <div id="quest">
+      <strong>THE SHATTERED KINGDOM</strong>
+      <span>Reach the abandoned cathedral beneath the Blood Moon.</span>
+    </div>
 
     <div id="quick-menu">
       <button id="menu-character">CHARACTER</button>
@@ -74,16 +87,19 @@
     <section id="controls">
       <div id="move-pad" class="pad"><div id="move-knob"></div></div>
       <button id="jump-btn" class="round jump">JUMP</button>
+
       <div id="combat-cluster">
         <button id="ability1-btn" class="small ability a1">I</button>
         <button id="ability2-btn" class="small ability a2">II</button>
         <button id="ability3-btn" class="small ability a3">III</button>
+
         <button id="attack-btn" class="small attack">ATK</button>
         <button id="block-btn" class="small block">BLK</button>
         <button id="heal-btn" class="small heal">HEAL</button>
         <button id="dodge-btn" class="round dodge">DODGE</button>
       </div>
     </section>
+
     <div id="toast"></div>
   </main>
 
@@ -91,28 +107,48 @@
     <nav class="menuTop">
       <button class="menuTab" data-page="inventory">INVENTORY</button>
       <button class="menuTab active" data-page="character">CHARACTER</button>
-      <button class="menuTab">LOADOUT</button><button class="menuTab">BLOODLINE</button>
-      <button class="menuTab">SKILLS</button><button class="menuTab">QUESTS</button>
+      <button class="menuTab">LOADOUT</button>
+      <button class="menuTab">BLOODLINE</button>
+      <button class="menuTab">SKILLS</button>
+      <button class="menuTab">QUESTS</button>
       <button id="menu-close" class="menuClose">×</button>
     </nav>
+
     <main id="characterPage" class="menuPage active">
       <div class="charLayout">
         <div id="leftEquip" class="equipCol"></div>
-        <div class="charCenter"><div class="knightPreview">♞</div><h2 id="bloodlineText"></h2><div id="bloodlineTier" class="bloodline"></div></div>
+        <div class="charCenter">
+          <div class="knightPreview">♞</div>
+          <h2 id="bloodlineText"></h2>
+          <div id="bloodlineTier" class="bloodline"></div>
+        </div>
         <div id="rightEquip" class="equipCol"></div>
       </div>
       <div class="levelRow">LEVEL 1<div class="xpbar"><i></i></div></div>
       <div class="statsPanel"><div id="statColumns" class="statColumns"></div></div>
     </main>
+
     <main id="inventoryPage" class="menuPage">
       <div class="inventoryWrap">
-        <div class="filters"><button class="filter active">All</button><button class="filter">Weapons</button><button class="filter">Armor</button><button class="filter">Accessories</button><button class="filter">Consumables</button><button class="filter">Materials</button><button class="filter">Quest Items</button></div>
-        <div class="inventoryBody"><div id="invGrid" class="invGrid"></div><aside id="itemDetail" class="itemDetail"></aside></div>
+        <div class="filters">
+          <button class="filter active">All</button>
+          <button class="filter">Weapons</button>
+          <button class="filter">Armor</button>
+          <button class="filter">Accessories</button>
+          <button class="filter">Consumables</button>
+          <button class="filter">Materials</button>
+          <button class="filter">Quest Items</button>
+        </div>
+        <div class="inventoryBody">
+          <div id="invGrid" class="invGrid"></div>
+          <aside id="itemDetail" class="itemDetail"></aside>
+        </div>
       </div>
       <div class="menuFooter">Equip · Drop · Compare · Sort · Back</div>
     </main>
   </div>
+
 </div>
-<script type="module" src="./main.js"></script>
+<script type="module" src="./main.js?v=8.1"></script>
 </body>
 </html>

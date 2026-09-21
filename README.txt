@@ -1,30 +1,59 @@
-FRACTURED: THE DARKNESS — INTEGRATED v8
+FRACTURED: THE DARKNESS — CLEAN INTEGRATED v8.1
 
-This build merges the new Start > Bloodline > Race > Class flow with the existing FRACTURED systems.
+THIS PACKAGE CONTAINS THE ACTIVE CODE ONLY.
 
-PRESERVED / INTEGRATED
-- 10 races: Human, Orc, Elf, Dragonborn, Demon, Angel, Fallen Angel, Tiefling, Vampire, Werewolf
-- Full Blooded (1 race) and Half Blooded (2 races)
-- Classes: Knight, Mage, Witch, Samurai, Ronin, Ninja
-- Latest detailed Angel Knight pose-sheet renderer
-- Smooth idle / walk / run / crouch / jump / fall / land
-- 3-hit buffered sword combo, block, block-hit, dodge i-frames, heal, hit/death states
-- Current mobile control layout: one movement pad, jump, large dodge, attack/block/heal, abilities I-II-III
-- Separate Character and Inventory menu pages
-- Equipment, inventory, character stats and Angel bloodline resistance
-- Blood moon, distant castle, dark forest, purple sky fracture and atmospheric motes
-- Angel-only ability buttons remain bloodline gated
+Protected flow:
+START
+→ Full Blooded / Half Blooded
+→ race selection
+→ class selection
+→ loading screen
+→ Shattered Kingdom world
 
-DEPLOYMENT
-Upload the CONTENTS of this folder to the root of a GitHub Pages repository.
-index.html must be at the published root.
-Do not upload only the ZIP if you expect GitHub Pages to run it.
+Protected systems:
+- 10 races
+- 6 classes
+- hybrid selection
+- current detailed Shattered Kingdom background
+- detailed image-based Angel Knight pose-sheet renderer
+- idle / walk / run / crouch / jump / fall / land
+- 3-hit sword combo
+- block / dodge / heal
+- current mobile control layout
+- Character and Inventory pages
+- Angel-only ability gating
+- corrected 75.5% ground anchor
+- old service-worker/cache cleanup
 
-Note: This is a web prototype integration layer. The modular structure is intentionally kept so future world/enemy/quest systems can be extended without rewriting character creation.
+IMPORTANT ASSETS ALREADY IN YOUR REPOSITORY
+This ZIP intentionally contains code only.
+KEEP these existing repo assets:
+assets/shattered_kingdom_world.jpeg
+assets/angel_knight_pose_sheet.png
 
+DELETE OLD FILES AFTER THIS CODE IS WORKING
+characters.js
+animation.js
+world.js
+render.js
+classes.js
+enemies.js
+inventory.js
+worldRenderer.js
+world.css
+world-demo.html
+FRACTURED_WORLD_ONLY_INDEX.html
+manifest.webmanifest
+sw.js
+broken-castle-landscape.jpg
+broken-castle-bg.jpg
+fall-left.png
+fall-right.png
+rift.png
+clouds.png
+trees.png
 
-WORLD FIX
-- Uses assets/shattered_kingdom_world.jpeg as the actual game environment.
-- Removes the canvas-generated moon, triangle forest, castle silhouettes and purple line placeholder.
-- Canvas is now transparent and reserved for actor rendering.
-- HUD and controls remain unchanged.
+Upload the files in this ZIP to the ROOT of:
+onyxblack53/Fractured-The-Darkness-v3
+
+Replace same-named files when GitHub asks.

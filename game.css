@@ -1,10 +1,10 @@
-
 *{box-sizing:border-box}
 :root{--gold:#d7b56c;--text:#f4eee1;--muted:#a9a39b}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050408;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 body{touch-action:none}
 button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;user-select:none}
 #app{position:relative;width:100vw;height:100dvh;min-height:480px;background:#07060a}
+
 .flow-screen{position:absolute;inset:0;z-index:50;display:none;overflow:auto;padding:max(24px,env(safe-area-inset-top)) 18px max(30px,env(safe-area-inset-bottom));background:radial-gradient(circle at 50% 34%,#1b131f 0,#09070d 49%,#030305 100%)}
 .flow-screen.active{display:flex}
 .center-screen{align-items:center;justify-content:center;flex-direction:column;text-align:center}
@@ -28,19 +28,31 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;user-s
 .choice-card b{display:block;margin-bottom:4px}.choice-card small{display:block;color:#aaa3a0;font-size:11px;line-height:1.35}
 .flow-footer{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:10px;padding:18px max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom));background:linear-gradient(transparent,#050507 34%)}
 .flow-footer .primary-btn{margin:0}
+
+#loading-screen{overflow:hidden}
+.loading-sigil{font-size:52px;animation:loadingPulse 1.4s ease-in-out infinite}
+.loading-title{font:clamp(22px,5vw,38px) Georgia,serif;letter-spacing:.12em;margin:18px 0 8px}
+.loading-track{width:min(420px,78vw);height:9px;margin-top:24px;border:1px solid #806d4d;background:#09080d;overflow:hidden}
+#loading-fill{height:100%;width:0;background:linear-gradient(90deg,#5e4930,#d7b56c,#fff1c2);transition:width .16s linear}
+@keyframes loadingPulse{0%,100%{transform:scale(.94);opacity:.65}50%{transform:scale(1.08);opacity:1}}
+
 #game-shell{display:none;position:absolute;inset:0;background:#07070a}
 #game-shell.active{display:block}
 #game{display:block;width:100%;height:100%}
+
 #hud{position:absolute;left:max(14px,env(safe-area-inset-left));top:max(14px,env(safe-area-inset-top));width:min(340px,48vw);pointer-events:none;text-shadow:0 2px 4px #000}
 #build-label{font:700 12px Georgia,serif;letter-spacing:.09em;margin-bottom:8px;color:#f2e3c6}
 .bar{display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:center;margin-bottom:7px;font-size:11px;font-weight:900;letter-spacing:.1em}
 .track{height:11px;background:#0008;border:1px solid #ffffff2c}.track>div{height:100%;width:100%}
-#hp-fill{background:linear-gradient(90deg,#70101a,#d12b3d)}#stamina-fill{background:linear-gradient(90deg,#746113,#e5c852)}
+#hp-fill{background:linear-gradient(90deg,#70101a,#d12b3d)}
+#stamina-fill{background:linear-gradient(90deg,#746113,#e5c852)}
 #state-label{margin-left:50px;font-size:10px;letter-spacing:.2em;opacity:.8}
+
 #quest{position:absolute;right:14px;top:max(15px,env(safe-area-inset-top));max-width:220px;text-align:right;font-size:10px;color:#bcb4c0;text-shadow:0 2px 4px #000}
 #quest strong{display:block;color:#e8dcc3;font:700 11px Georgia,serif;letter-spacing:.09em;margin-bottom:3px}
 #quick-menu{position:absolute;right:14px;top:92px;display:flex;gap:6px;z-index:8}
 #quick-menu button{border:1px solid #8c7754;background:#0c0b0fdd;border-radius:4px;padding:7px 9px;font-size:9px;letter-spacing:.06em}
+
 #controls{position:absolute;inset:0;pointer-events:none}
 button,.pad{pointer-events:auto}
 .pad{position:absolute;left:max(18px,env(safe-area-inset-left));bottom:max(24px,env(safe-area-inset-bottom));width:132px;height:132px;border-radius:50%;border:2px solid #ecdca88b;background:#101115a9;box-shadow:inset 0 0 24px #e5d09c1f}
@@ -50,52 +62,28 @@ button,.pad{pointer-events:auto}
 .round{width:82px;height:82px}.small{width:58px;height:58px;font-size:11px}
 .jump{position:absolute;left:165px;bottom:max(52px,calc(env(safe-area-inset-bottom) + 20px))}
 #combat-cluster{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));width:260px;height:248px;pointer-events:none}
-#combat-cluster button{position:absolute;pointer-events:auto}.dodge{right:42px;bottom:16px}.attack{right:54px;bottom:118px}.block{right:132px;bottom:84px}.heal{right:8px;bottom:82px}.ability{bottom:190px}.a1{right:148px}.a2{right:82px}.a3{right:16px}
-#toast{position:absolute;left:50%;top:18%;transform:translateX(-50%);z-index:20;padding:9px 13px;background:#09080dcf;border:1px solid #a776df55;border-radius:999px;font-size:11px;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
+#combat-cluster button{position:absolute;pointer-events:auto}
+.dodge{right:42px;bottom:16px}
+.attack{right:54px;bottom:118px}
+.block{right:132px;bottom:84px}
+.heal{right:8px;bottom:82px}
+.ability{bottom:190px}
+.a1{right:148px}.a2{right:82px}.a3{right:16px}
+
+#toast{position:absolute;left:50%;top:18%;transform:translateX(-50%);z-index:20;padding:9px 13px;background:#09080dcf;border:1px solid #a776df55;border-radius:999px;font-size:11px;opacity:0;transition:.2s;pointer-events:none}
+#toast.show{opacity:1}
+
+#world-art{position:absolute;inset:0;z-index:0;overflow:hidden;background:#040308;pointer-events:none}
+#world-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1.01);image-rendering:auto}
+.world-grade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,1,5,.02),rgba(4,2,8,.02) 50%,rgba(0,0,0,.34) 100%)}
+.world-vignette{position:absolute;inset:0;box-shadow:inset 0 0 90px rgba(0,0,0,.32),inset 0 -120px 100px rgba(0,0,0,.38)}
+#game{position:absolute;inset:0;z-index:3;background:transparent!important}
+#hud,#quest,#quick-menu,#controls,#toast{z-index:8}
+
 @media(min-width:760px){.choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:700px){.pad{width:118px;height:118px}#move-knob{left:32px;top:32px;width:54px;height:54px}.jump{left:145px;bottom:42px;width:70px;height:70px;font-size:11px}#combat-cluster{transform:scale(.88);transform-origin:100% 100%}}
-
-
-/* === FRACTURED v8 WORLD FIX ===
-   The environment is now the supplied artwork, not a canvas-drawn placeholder.
-*/
-#world-art{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-  background:#040308;
-  pointer-events:none;
-}
-#world-background{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:50% 50%;
-  transform:scale(1.01);
-  image-rendering:auto;
-}
-.world-grade{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(to bottom,rgba(2,1,5,.02),rgba(4,2,8,.02) 50%,rgba(0,0,0,.34) 100%);
-}
-.world-vignette{
-  position:absolute;
-  inset:0;
-  box-shadow:
-    inset 0 0 90px rgba(0,0,0,.32),
-    inset 0 -120px 100px rgba(0,0,0,.38);
-}
-#game{
-  position:absolute;
-  inset:0;
-  z-index:3;
-  background:transparent !important;
-}
-#hud,#quest,#quick-menu,#controls,#toast{
-  z-index:8;
+@media(max-width:700px){
+  .pad{width:118px;height:118px}
+  #move-knob{left:32px;top:32px;width:54px;height:54px}
+  .jump{left:145px;bottom:42px;width:70px;height:70px;font-size:11px}
+  #combat-cluster{transform:scale(.88);transform-origin:100% 100%}
 }
