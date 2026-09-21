@@ -3,12 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#050609" />
   <title>FRACTURED: The Darkness — Angel Knight</title>
   <link rel="stylesheet" href="./game.css" />
 </head>
 <body>
   <main id="game-shell">
-    <canvas id="game" width="1170" height="720" aria-label="FRACTURED gameplay canvas"></canvas>
+    <canvas id="game" aria-label="FRACTURED gameplay canvas"></canvas>
+
+    <div id="boot-screen" class="boot-screen" role="status" aria-live="polite">
+      <div class="sigil">✦</div>
+      <div class="boot-title">FRACTURED</div>
+      <div class="boot-subtitle">AWAKENING THE ANGEL KNIGHT</div>
+      <div class="boot-line"><i></i></div>
+      <div id="boot-status">Loading character atlas…</div>
+    </div>
 
     <section id="hud" aria-label="Player HUD">
       <div class="bar"><span>HP</span><div class="track"><div id="hp-fill"></div></div></div>
@@ -17,17 +26,13 @@
     </section>
 
     <section id="controls" aria-label="Mobile controls">
-      <div id="move-pad" class="pad" aria-label="Movement pad">
-        <div id="move-knob"></div>
-      </div>
-
+      <div id="move-pad" class="pad" aria-label="Movement pad"><div id="move-knob"></div></div>
       <button id="jump-btn" class="round jump">JUMP</button>
 
       <div id="combat-cluster">
         <button id="ability1-btn" class="small ability a1">I</button>
         <button id="ability2-btn" class="small ability a2">II</button>
         <button id="ability3-btn" class="small ability a3">III</button>
-
         <button id="attack-btn" class="small attack">ATK</button>
         <button id="block-btn" class="small block">BLK</button>
         <button id="heal-btn" class="small heal">HEAL</button>
