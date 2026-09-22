@@ -1,18 +1,18 @@
-FRACTURED v8.2 ASSET PATH FIX
+UPLOAD INSTRUCTIONS
 
-The repo currently stores these files in the ROOT:
-- shattered_kingdom_world.jpeg
-- angel_knight_pose_sheet.png
+1. Download this ZIP.
+2. Unzip it.
+3. Upload angelKnightInput.js to the ROOT of your FRACTURED GitHub repository.
 
-The v8.1 code incorrectly looked for them inside /assets/.
+This is the input/controller file only.
+It is built for the transparent PNG animation package that comes next.
 
-Replace these two files in the repo root:
-- index.html
-- angelKnightAnimations.js
-
-This fixes:
-- black world/background
-- broken character image icon
-- missing pose-sheet character rendering
-
-The code also bumps cache query strings to v8.2.
+Expected transparent animation folders:
+assets/characters/angel-knight/idle/
+assets/characters/angel-knight/run/
+assets/characters/angel-knight/jump/
+assets/characters/angel-knight/block/
+assets/characters/angel-knight/dodge/
+assets/characters/angel-knight/attack1/
+assets/characters/angel-knight/attack2/
+assets/characters/angel-knight/attack3/
