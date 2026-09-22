@@ -1,153 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#06050a">
-<title>FRACTURED: The Darkness — Integrated v8.2</title>
-<link rel="stylesheet" href="./game.css?v=8.2">
-<link rel="stylesheet" href="./menu.css?v=8.2">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angel Knight Animation Test</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #0a0a12; color: #f1e6c9; font-family: Georgia, serif; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    h1 { margin: 0 0 12px; }
+    canvas { width: 100%; max-width: 900px; aspect-ratio: 16/9; background: radial-gradient(circle at center, #1a1b34 0%, #090911 70%); border: 1px solid rgba(255,255,255,.12); display:block; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    button { background:#141524; color:#f1e6c9; border:1px solid #8f7a4a; padding:10px 14px; border-radius:10px; font-size:16px; cursor:pointer; }
+    .row { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+    .notes { max-width: 900px; line-height: 1.5; opacity: .9; }
+    code { background:#141524; padding:2px 5px; border-radius:6px; }
+  </style>
 </head>
 <body>
-<div id="app">
-
-  <section id="start-screen" class="flow-screen active center-screen">
-    <div class="sigil">✦</div>
-    <h1 class="logo">FRACTURED</h1>
-    <div class="sublogo">THE DARKNESS</div>
-    <p>Worlds fracture. Blood remembers.</p>
-    <button id="start-btn" class="primary-btn">START</button>
-  </section>
-
-  <section id="race-screen" class="flow-screen">
-    <div class="flow-panel">
-      <div class="sigil">✦</div>
-      <h2>CHOOSE YOUR BLOODLINE</h2>
-      <p>Choose one pure race or combine two races to create a half-blooded character.</p>
-      <div class="mode-switch">
-        <button id="pure-btn" class="selected">FULL BLOODED</button>
-        <button id="hybrid-btn">HALF BLOODED</button>
-      </div>
-      <div id="race-summary" class="selection-summary">Select one race.</div>
-      <div id="race-grid" class="choice-grid"></div>
-      <div class="flow-footer">
-        <button id="flow-back-start">BACK</button>
-        <button id="race-next" class="primary-btn" disabled>CONTINUE</button>
-      </div>
+  <div class="wrap">
+    <h1>Angel Knight Animation Test</h1>
+    <div class="row">
+      <canvas id="game" width="1280" height="720"></canvas>
     </div>
-  </section>
-
-  <section id="class-screen" class="flow-screen">
-    <div class="flow-panel">
-      <div class="sigil">✦</div>
-      <h2>CHOOSE YOUR CLASS</h2>
-      <p>Your blood determines what you are. Your class determines how you fight.</p>
-      <div id="bloodline-summary" class="selection-summary"></div>
-      <div id="class-grid" class="choice-grid"></div>
-      <div class="flow-footer">
-        <button id="flow-back-race">BACK</button>
-        <button id="enter-world" class="primary-btn" disabled>ENTER WORLD</button>
-      </div>
+    <div class="controls">
+      <button data-action="idle">Idle</button>
+      <button data-action="run">Run</button>
+      <button data-action="jump">Jump</button>
+      <button data-action="block">Block</button>
+      <button data-action="dash">Dash</button>
+      <button data-action="attack">Attack Combo</button>
+      <button id="face-left">Face Left</button>
+      <button id="face-right">Face Right</button>
     </div>
-  </section>
-
-  <section id="loading-screen" class="flow-screen center-screen">
-    <div class="sigil loading-sigil">✦</div>
-    <h2 class="loading-title">ENTERING THE SHATTERED KINGDOM</h2>
-    <p id="loading-build">Preparing your bloodline...</p>
-    <div class="loading-track"><div id="loading-fill"></div></div>
-  </section>
-
-  <main id="game-shell">
-    <div id="world-art" aria-hidden="true">
-      <img id="world-background" src="./shattered_kingdom_world.jpeg?v=8.2" alt="">
-      <div class="world-grade"></div>
-      <div class="world-vignette"></div>
-    </div>
-
-    <canvas id="game"></canvas>
-
-    <section id="hud">
-      <div id="build-label">ANGEL KNIGHT</div>
-      <div class="bar"><span>HP</span><div class="track"><div id="hp-fill"></div></div></div>
-      <div class="bar"><span>STA</span><div class="track"><div id="stamina-fill"></div></div></div>
-      <div id="state-label">IDLE</div>
-    </section>
-
-    <div id="quest">
-      <strong>THE SHATTERED KINGDOM</strong>
-      <span>Reach the abandoned cathedral beneath the Blood Moon.</span>
-    </div>
-
-    <div id="quick-menu">
-      <button id="menu-character">CHARACTER</button>
-      <button id="menu-inventory">INVENTORY</button>
-    </div>
-
-    <section id="controls">
-      <div id="move-pad" class="pad"><div id="move-knob"></div></div>
-      <button id="jump-btn" class="round jump">JUMP</button>
-
-      <div id="combat-cluster">
-        <button id="ability1-btn" class="small ability a1">I</button>
-        <button id="ability2-btn" class="small ability a2">II</button>
-        <button id="ability3-btn" class="small ability a3">III</button>
-        <button id="attack-btn" class="small attack">ATK</button>
-        <button id="block-btn" class="small block">BLK</button>
-        <button id="heal-btn" class="small heal">HEAL</button>
-        <button id="dodge-btn" class="round dodge">DODGE</button>
-      </div>
-    </section>
-
-    <div id="toast"></div>
-  </main>
-
-  <div id="rpgMenu">
-    <nav class="menuTop">
-      <button class="menuTab" data-page="inventory">INVENTORY</button>
-      <button class="menuTab active" data-page="character">CHARACTER</button>
-      <button class="menuTab">LOADOUT</button>
-      <button class="menuTab">BLOODLINE</button>
-      <button class="menuTab">SKILLS</button>
-      <button class="menuTab">QUESTS</button>
-      <button id="menu-close" class="menuClose">×</button>
-    </nav>
-
-    <main id="characterPage" class="menuPage active">
-      <div class="charLayout">
-        <div id="leftEquip" class="equipCol"></div>
-        <div class="charCenter">
-          <div class="knightPreview">♞</div>
-          <h2 id="bloodlineText"></h2>
-          <div id="bloodlineTier" class="bloodline"></div>
-        </div>
-        <div id="rightEquip" class="equipCol"></div>
-      </div>
-      <div class="levelRow">LEVEL 1<div class="xpbar"><i></i></div></div>
-      <div class="statsPanel"><div id="statColumns" class="statColumns"></div></div>
-    </main>
-
-    <main id="inventoryPage" class="menuPage">
-      <div class="inventoryWrap">
-        <div class="filters">
-          <button class="filter active">All</button>
-          <button class="filter">Weapons</button>
-          <button class="filter">Armor</button>
-          <button class="filter">Accessories</button>
-          <button class="filter">Consumables</button>
-          <button class="filter">Materials</button>
-          <button class="filter">Quest Items</button>
-        </div>
-        <div class="inventoryBody">
-          <div id="invGrid" class="invGrid"></div>
-          <aside id="itemDetail" class="itemDetail"></aside>
-        </div>
-      </div>
-      <div class="menuFooter">Equip · Drop · Compare · Sort · Back</div>
-    </main>
+    <p class="notes">
+      This preview uses the provided sprite sheets as code-driven animations. Use <code>angel_knight_animations.js</code> in your game and call <code>animator.trigger('attack')</code>, <code>animator.trigger('run')</code>, etc.
+    </p>
   </div>
+  <script type="module">
+    import { AngelKnightAnimator } from './angel_knight_animations.js';
 
-</div>
-<script type="module" src="./main.js?v=8.2"></script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const animator = await new AngelKnightAnimator().load();
+
+    let last = performance.now();
+    function loop(now) {
+      const dt = (now - last) / 1000;
+      last = now;
+      animator.update(dt);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // ground
+      ctx.fillStyle = '#1b1d2a';
+      ctx.fillRect(0, 570, canvas.width, 150);
+      ctx.fillStyle = '#27293a';
+      for (let i = 0; i < canvas.width; i += 85) {
+        for (let j = 570; j < 720; j += 38) {
+          ctx.strokeStyle = '#3f4255';
+          ctx.strokeRect(i, j, 82, 34);
+        }
+      }
+
+      animator.draw(ctx, 360, 250, 370, 370);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    document.querySelectorAll('button[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => animator.trigger(btn.dataset.action));
+    });
+    document.getElementById('face-left').addEventListener('click', () => animator.setFacing('left'));
+    document.getElementById('face-right').addEventListener('click', () => animator.setFacing('right'));
+  </script>
 </body>
 </html>
