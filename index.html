@@ -7,6 +7,7 @@
 <title>FRACTURED: The Darkness — Angel Knight Integrated v6</title>
 <link rel="stylesheet" href="./game.css?v=6">
 <link rel="stylesheet" href="./menu.css?v=6">
+<link rel="stylesheet" href="./v7-patch.css?v=7">
 </head>
 <body>
 <div id="app">
@@ -72,6 +73,8 @@
       <div class="world-vignette"></div>
     </div>
 
+    <div id="walk-ground" aria-hidden="true"></div>
+
     <canvas id="game"></canvas>
 
     <section id="hud">
@@ -127,7 +130,7 @@
       <div class="charLayout">
         <div id="leftEquip" class="equipCol"></div>
         <div class="charCenter">
-          <div class="knightPreview">♞</div>
+          <canvas id="character-preview" class="knightPreviewCanvas" width="520" height="620" aria-label="Angel Knight equipment preview"></canvas>
           <h2 id="bloodlineText"></h2>
           <div id="bloodlineTier" class="bloodline"></div>
         </div>
@@ -159,6 +162,7 @@
 
 </div>
 
-<script type="module" src="./main.js?v=6"></script>
+<script type="module" src="./main.js?v=7"></script>
+<script type="module" src="./characterPreview.js?v=7"></script>
 </body>
 </html>

@@ -1,0 +1,20 @@
+/* FRACTURED v7 visual patch */
+#walk-ground{
+  position:absolute;left:0;right:0;top:75.5%;bottom:0;z-index:2;pointer-events:none;
+  border-top:2px solid rgba(190,170,132,.28);
+  background:
+    linear-gradient(to bottom,rgba(12,11,15,.08),rgba(7,7,10,.86) 18%,rgba(5,5,8,.97)),
+    repeating-linear-gradient(0deg,transparent 0 39px,rgba(94,80,88,.34) 39px 42px),
+    repeating-linear-gradient(90deg,rgba(18,17,22,.92) 0 86px,rgba(67,57,65,.48) 86px 89px,rgba(12,12,16,.92) 89px 174px);
+  box-shadow:inset 0 12px 20px rgba(0,0,0,.28),0 -8px 26px rgba(0,0,0,.35);
+}
+#game{z-index:3}
+.knightPreviewCanvas{
+  display:block;width:min(100%,360px);height:auto;aspect-ratio:520/620;margin:0 auto 8px;
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.68));
+}
+.knightPreview{display:none!important}
+@media(max-width:720px){
+  .knightPreviewCanvas{width:min(100%,240px)}
+  .charCenter{justify-content:center}
+}
