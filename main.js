@@ -1,7 +1,7 @@
-import { Player } from "./player.js";
+import { Player } from "./player.js?v=6";
 import { bindControls } from "./controls.js";
 import { CharacterCreator } from "./creator.js";
-import { openMenu, closeMenu, showPage } from "./menu.js";
+import { openMenu,closeMenu,showPage } from "./menu.js";
 
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d",{alpha:true});
@@ -15,7 +15,6 @@ const buildLabel=document.getElementById("build-label");
 const loadingFill=document.getElementById("loading-fill");
 const loadingBuild=document.getElementById("loading-build");
 
-// Ground line matched to the detailed Shattered Kingdom artwork.
 const GROUND_RATIO=.755;
 
 window.FRACTURED={
@@ -29,11 +28,6 @@ window.FRACTURED={
 let player=null;
 let controlsBound=false;
 let last=performance.now();
-let worldTime=0;
-
-function hasRace(name){
-  return window.FRACTURED.buildConfig?.races?.includes(name);
-}
 
 async function clearOldBuildCaches(){
   try{
@@ -51,7 +45,9 @@ clearOldBuildCaches();
 
 function resize(){
   const ratio=Math.min(devicePixelRatio||1,2);
-  const cssW=innerWidth,cssH=innerHeight;
+  const cssW=innerWidth;
+  const cssH=innerHeight;
+
   canvas.width=Math.round(cssW*ratio);
   canvas.height=Math.round(cssH*ratio);
   canvas.style.width=cssW+"px";
@@ -61,25 +57,16 @@ function resize(){
   if(player){
     player.groundY=cssH*GROUND_RATIO;
     if(player.onGround)player.y=player.groundY;
-    player.x=Math.max(90,Math.min(cssW-90,player.x));
+    player.x=Math.max(45,Math.min(cssW-45,player.x));
   }
 }
 addEventListener("resize",resize,{passive:true});
 resize();
 
-function drawWorld(w,h){
-  // The environment is the detailed image in #world-background.
-  // Canvas stays transparent and only composites detailed actor art.
-  ctx.clearRect(0,0,w,h);
-}
-
-function syncAbilityButtons(){
-  const angel=hasRace("Angel");
-  document.querySelectorAll(".ability").forEach(btn=>{
-    btn.disabled=!angel;
-    btn.style.opacity=angel?"1":".28";
-    btn.title=angel?"Angel bloodline ability":"Requires Angel bloodline";
-  });
+function drawWorld(){
+  // Detailed world is the DOM background image.
+  // Canvas stays transparent and renders only the Angel Knight.
+  ctx.clearRect(0,0,innerWidth,innerHeight);
 }
 
 function actuallyEnterWorld(config){
@@ -91,9 +78,7 @@ function actuallyEnterWorld(config){
   document.getElementById("game-shell").classList.add("active");
 
   const groundY=innerHeight*GROUND_RATIO;
-  player=new Player(innerWidth*.5,groundY);
-  player.groundY=groundY;
-  player.y=groundY;
+  player=new Player(innerWidth*.36,groundY);
 
   if(!controlsBound){
     bindControls(player);
@@ -102,7 +87,7 @@ function actuallyEnterWorld(config){
 
   window.FRACTURED.angelKnight=player;
   buildLabel.textContent=`${config.races.join(" / ")} · ${config.className}`;
-  syncAbilityButtons();
+
   resize();
   last=performance.now();
 }
@@ -111,24 +96,28 @@ function beginGame(config){
   window.FRACTURED.buildConfig=config;
 
   document.querySelectorAll(".flow-screen").forEach(s=>s.classList.remove("active"));
+
   const loading=document.getElementById("loading-screen");
   loading.classList.add("active");
 
   loadingBuild.textContent=`${config.races.join(" / ")} · ${config.className}`;
   loadingFill.style.width="0%";
 
-  const steps=[18,39,62,81,100];
+  const steps=[16,37,61,83,100];
   let i=0;
+
   const tick=()=>{
     loadingFill.style.width=steps[i]+"%";
     i++;
+
     if(i<steps.length){
-      setTimeout(tick,135);
+      setTimeout(tick,140);
     }else{
-      setTimeout(()=>actuallyEnterWorld(config),180);
+      setTimeout(()=>actuallyEnterWorld(config),220);
     }
   };
-  requestAnimationFrame(()=>setTimeout(tick,60));
+
+  requestAnimationFrame(()=>setTimeout(tick,80));
 }
 
 new CharacterCreator(beginGame);
@@ -136,35 +125,30 @@ new CharacterCreator(beginGame);
 document.getElementById("menu-character").onclick=()=>openMenu("character");
 document.getElementById("menu-inventory").onclick=()=>openMenu("inventory");
 document.getElementById("menu-close").onclick=closeMenu;
-document.querySelectorAll(".menuTab[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+
+document.querySelectorAll(".menuTab[data-page]").forEach(btn=>{
+  btn.onclick=()=>showPage(btn.dataset.page);
+});
 
 document.querySelectorAll(".ability").forEach((btn,i)=>{
   btn.addEventListener("click",()=>{
-    if(!hasRace("Angel"))return;
-
-    const messages=[
-      "Radiant Burst — Angel bloodline",
-      "Aegis of Heaven — Angel bloodline",
-      "Falling Star — Angel bloodline"
-    ];
-
     const toast=document.getElementById("toast");
-    toast.textContent=messages[i];
+    const labels=["Radiant Burst","Aegis of Heaven","Falling Star"];
+    toast.textContent=labels[i]+" — ability slot ready";
     toast.classList.add("show");
     clearTimeout(window.__fcdToast);
-    window.__fcdToast=setTimeout(()=>toast.classList.remove("show"),900);
+    window.__fcdToast=setTimeout(()=>toast.classList.remove("show"),800);
   });
 });
 
 function frame(now){
   const dt=Math.min(.033,(now-last)/1000||.016);
   last=now;
-  worldTime+=dt;
 
   if(window.FRACTURED.started){
     if(player&&!window.FRACTURED.menuPaused)player.update(dt);
 
-    drawWorld(innerWidth,innerHeight);
+    drawWorld();
     player?.draw(ctx);
 
     if(player){
