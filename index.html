@@ -1,77 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Angel Knight Animation Test</title>
-  <style>
-    html, body { margin: 0; padding: 0; background: #0a0a12; color: #f1e6c9; font-family: Georgia, serif; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
-    h1 { margin: 0 0 12px; }
-    canvas { width: 100%; max-width: 900px; aspect-ratio: 16/9; background: radial-gradient(circle at center, #1a1b34 0%, #090911 70%); border: 1px solid rgba(255,255,255,.12); display:block; }
-    .controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
-    button { background:#141524; color:#f1e6c9; border:1px solid #8f7a4a; padding:10px 14px; border-radius:10px; font-size:16px; cursor:pointer; }
-    .row { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
-    .notes { max-width: 900px; line-height: 1.5; opacity: .9; }
-    code { background:#141524; padding:2px 5px; border-radius:6px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Angel Knight Animation Test v3</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#080910;color:#efe2bd;font-family:Georgia,serif}
+body{padding:22px}
+h1{font-size:clamp(34px,7vw,68px);line-height:1.05;margin:0 0 18px}
+#stage{position:relative;width:100%;max-width:980px;aspect-ratio:16/9;border:2px solid #2e3040;background:radial-gradient(circle at 50% 35%,#1c1d30,#0a0b13 72%);overflow:hidden}
+#ground{position:absolute;left:0;right:0;bottom:0;height:27%;background:linear-gradient(#191b26,#0d0f16);border-top:2px solid #34384d}
+#player{position:absolute;left:120px;bottom:18%;width:150px;height:150px;overflow:hidden;transform-origin:center bottom;filter:drop-shadow(0 12px 16px #000c)}
+#sprite{position:absolute;left:0;top:0;height:100%;width:300%;max-width:none;transform:translateX(0)}
+#status{margin-top:10px;font:15px system-ui,sans-serif;color:#c9c5bc}
+.controls,.move{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button{background:#151624;color:#efe2bd;border:2px solid #907840;border-radius:14px;padding:13px 18px;font-size:19px;font-family:inherit}
+button:active{transform:scale(.97)}
+.note{max-width:980px;font:15px/1.45 system-ui,sans-serif;color:#c7c1b5;margin-top:18px}
+@media(max-width:700px){
+ body{padding:16px}
+ #player{width:115px;height:115px;bottom:19%}
+ button{font-size:16px;padding:11px 14px}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Angel Knight Animation Test</h1>
-    <div class="row">
-      <canvas id="game" width="1280" height="720"></canvas>
-    </div>
-    <div class="controls">
-      <button data-action="idle">Idle</button>
-      <button data-action="run">Run</button>
-      <button data-action="jump">Jump</button>
-      <button data-action="block">Block</button>
-      <button data-action="dash">Dash</button>
-      <button data-action="attack">Attack Combo</button>
-      <button id="face-left">Face Left</button>
-      <button id="face-right">Face Right</button>
-    </div>
-    <p class="notes">
-      This preview uses the provided sprite sheets as code-driven animations. Use <code>angel_knight_animations.js</code> in your game and call <code>animator.trigger('attack')</code>, <code>animator.trigger('run')</code>, etc.
-    </p>
+<h1>Angel Knight<br>Animation Test</h1>
+
+<div id="stage">
+  <div id="ground"></div>
+  <div id="player">
+    <img id="sprite" src="./assets/idle.png" alt="Angel Knight">
   </div>
-  <script type="module">
-    import { AngelKnightAnimator } from './angel_knight_animations.js';
+</div>
 
-    const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
-    const animator = await new AngelKnightAnimator().load();
+<div id="status">State: <b id="stateText">idle</b> · Frame: <span id="frameText">1</span>/3</div>
 
-    let last = performance.now();
-    function loop(now) {
-      const dt = (now - last) / 1000;
-      last = now;
-      animator.update(dt);
+<div class="controls">
+  <button data-action="idle">Idle</button>
+  <button data-action="run">Run</button>
+  <button data-action="jump">Jump</button>
+  <button data-action="block">Block</button>
+  <button data-action="dash">Dash</button>
+  <button data-action="attack">Attack Combo</button>
+  <button data-face="left">Face Left</button>
+  <button data-face="right">Face Right</button>
+</div>
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+<div class="move">
+  <button id="moveLeft">◀ Move Left</button>
+  <button id="moveRight">Move Right ▶</button>
+</div>
 
-      // ground
-      ctx.fillStyle = '#1b1d2a';
-      ctx.fillRect(0, 570, canvas.width, 150);
-      ctx.fillStyle = '#27293a';
-      for (let i = 0; i < canvas.width; i += 85) {
-        for (let j = 570; j < 720; j += 38) {
-          ctx.strokeStyle = '#3f4255';
-          ctx.strokeRect(i, j, 82, 34);
-        }
-      }
+<p class="note">
+This version uses normal PNG files instead of giant embedded data URLs. Upload <strong>index.html</strong> and the entire <strong>assets</strong> folder together, preserving the folder structure.
+</p>
 
-      animator.draw(ctx, 360, 250, 370, 370);
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
+<script>
+const ANIMS={
+ idle:{src:"./assets/idle.png",fps:5,loop:true},
+ run:{src:"./assets/run.png",fps:10,loop:true},
+ jump:{src:"./assets/jump.png",fps:8,loop:false},
+ block:{src:"./assets/block.png",fps:8,loop:true},
+ dash:{src:"./assets/dash.png",fps:13,loop:false},
+ attack1:{src:"./assets/attack1.png",fps:11,loop:false},
+ attack2:{src:"./assets/attack2.png",fps:12,loop:false},
+ attack3:{src:"./assets/attack3.png",fps:12,loop:false}
+};
 
-    document.querySelectorAll('button[data-action]').forEach(btn => {
-      btn.addEventListener('click', () => animator.trigger(btn.dataset.action));
-    });
-    document.getElementById('face-left').addEventListener('click', () => animator.setFacing('left'));
-    document.getElementById('face-right').addEventListener('click', () => animator.setFacing('right'));
-  </script>
+const stage=document.getElementById("stage");
+const player=document.getElementById("player");
+const sprite=document.getElementById("sprite");
+const stateText=document.getElementById("stateText");
+const frameText=document.getElementById("frameText");
+
+let state="idle",frame=0,timer=0,last=performance.now();
+let x=120,facing=1,moveDir=0,combo=0,locked=false;
+let yOffset=0,vy=0,jumping=false;
+
+function setState(next,force=false){
+ if(!force&&next===state)return;
+ state=next;frame=0;timer=0;
+ sprite.src=ANIMS[state].src;
+ sprite.style.transform="translateX(0)";
+ stateText.textContent=state;
+ frameText.textContent="1";
+}
+
+function attack(){
+ if(locked)return;
+ combo=(combo%3)+1;
+ locked=true;
+ setState("attack"+combo,true);
+}
+function jump(){
+ if(locked||jumping)return;
+ locked=true;jumping=true;vy=-520;setState("jump",true);
+}
+function dash(){
+ if(locked)return;
+ locked=true;setState("dash",true);
+ x+=facing*90;
+}
+
+function update(dt){
+ const a=ANIMS[state];
+ timer+=dt;
+ const frameDur=1/a.fps;
+ if(timer>=frameDur){
+   timer-=frameDur;
+   frame++;
+   if(frame>=3){
+     if(a.loop)frame=0;
+     else{
+       frame=2;
+       if(!(state==="jump"&&jumping)){
+         locked=false;
+         setState(moveDir!==0?"run":"idle",true);
+         return;
+       }
+     }
+   }
+   sprite.style.transform=`translateX(${-frame*33.333333}%)`;
+   frameText.textContent=String(frame+1);
+ }
+
+ if(!locked&&!jumping){
+   if(moveDir!==0){
+     facing=moveDir<0?-1:1;
+     x+=moveDir*150*dt;
+     if(state!=="run")setState("run");
+   }else if(state==="run")setState("idle");
+ }
+
+ if(jumping){
+   vy+=1200*dt;
+   yOffset+=vy*dt;
+   if(yOffset>=0){
+     yOffset=0;vy=0;jumping=false;locked=false;
+     setState(moveDir!==0?"run":"idle",true);
+   }
+ }
+
+ const maxX=Math.max(0,stage.clientWidth-player.clientWidth);
+ x=Math.max(0,Math.min(maxX,x));
+ player.style.left=x+"px";
+ player.style.bottom=`calc(18% + ${-yOffset}px)`;
+ player.style.transform=`scaleX(${facing})`;
+}
+
+function loop(now){
+ const dt=Math.min(.033,(now-last)/1000);
+ last=now;
+ update(dt);
+ requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+document.querySelectorAll("[data-action]").forEach(b=>{
+ b.onclick=()=>{
+  const a=b.dataset.action;
+  if(a==="attack")attack();
+  else if(a==="jump")jump();
+  else if(a==="dash")dash();
+  else {locked=false;setState(a,true);}
+ };
+});
+document.querySelectorAll("[data-face]").forEach(b=>{
+ b.onclick=()=>facing=b.dataset.face==="left"?-1:1;
+});
+
+const L=document.getElementById("moveLeft");
+const R=document.getElementById("moveRight");
+L.onpointerdown=e=>{e.preventDefault();moveDir=-1};
+R.onpointerdown=e=>{e.preventDefault();moveDir=1};
+for(const b of [L,R]){
+ b.onpointerup=()=>moveDir=0;
+ b.onpointercancel=()=>moveDir=0;
+ b.onpointerleave=()=>moveDir=0;
+}
+
+// clear visual error instead of silently showing nothing
+sprite.onerror=()=>{
+ stateText.textContent="IMAGE MISSING";
+ player.style.outline="3px solid crimson";
+};
+</script>
 </body>
 </html>
