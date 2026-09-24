@@ -1,49 +1,23 @@
-# Angel Knight Animation Code Package
+# Updated code + PNG swap package
 
-This package turns the provided Angel Knight sprite sheets into usable browser game animation code.
+This package replaces the 6 broken attack frames in code with the repaired PNGs.
 
-## Files
-- `angel_knight_animations.js` — main animation code
-- `assets/*.png` — sprite sheets
-- `index.html` — local preview/test page
+## Replaced frames
+- attack1_1.png -> repaired frontal slash frame
+- attack1_2.png -> repaired frontal slash frame (second variant)
+- attack2_1.png -> repaired horizontal ring slash
+- attack2_2.png -> repaired horizontal ring slash (second variant)
+- attack3_1.png -> repaired large grounded crescent slash
+- attack3_2.png -> repaired airborne crescent slash
 
-## Included animations
-- idle
-- run
-- jump
-- block
-- dash
-- attack1
-- attack2
-- attack3
+## Files to use
+- `angelKnightAnimations.js`
+- `angelKnightRenderer.js`
+- `assets/angel-knight-fixed/*.png`
 
-## How to use in your game
-1. Copy `angel_knight_animations.js`
-2. Copy the `assets` folder beside it
-3. Import it:
+## Base path in code
+The animation file expects the PNGs at:
+`assets/angel-knight-fixed/`
 
-```js
-import { AngelKnightAnimator } from './angel_knight_animations.js';
-const animator = await new AngelKnightAnimator().load();
-```
-
-4. Update and draw each frame:
-
-```js
-animator.update(deltaTimeInSeconds);
-animator.draw(ctx, x, y, width, height);
-```
-
-5. Trigger actions:
-
-```js
-animator.setFacing('left');
-animator.setFacing('right');
-animator.trigger('run');
-animator.trigger('jump');
-animator.trigger('block');
-animator.trigger('dash');
-animator.trigger('attack');
-```
-
-The attack trigger cycles through all 3 combo animations.
+## If you already use my earlier package
+You can overwrite the old animation JS with this new one and swap the PNG folder to `assets/angel-knight-fixed/`.
