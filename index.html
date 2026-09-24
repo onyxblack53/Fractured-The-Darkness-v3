@@ -1,18 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#050408">
-<title>FRACTURED: The Darkness — Angel Knight Integrated v6</title>
-<link rel="stylesheet" href="./game.css?v=6">
-<link rel="stylesheet" href="./menu.css?v=6">
-<link rel="stylesheet" href="./v7-patch.css?v=7">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#050408">
+  <title>FRACTURED: The Darkness</title>
+  <link rel="stylesheet" href="./styles.css?v=2">
 </head>
 <body>
 <div id="app">
-
-  <!-- START / CHARACTER CREATION FLOW -->
   <section id="start-screen" class="flow-screen active center-screen">
     <div class="sigil">✦</div>
     <h1 class="logo">FRACTURED</h1>
@@ -25,16 +21,13 @@
     <div class="flow-panel">
       <div class="sigil">✦</div>
       <h2>CHOOSE YOUR BLOODLINE</h2>
-      <p>Choose one pure race or combine two races to create a half-blooded character.</p>
-
+      <p>Choose one full-blooded race or combine two races as a half-blood.</p>
       <div class="mode-switch">
         <button id="pure-btn" class="selected">FULL BLOODED</button>
         <button id="hybrid-btn">HALF BLOODED</button>
       </div>
-
       <div id="race-summary" class="selection-summary">Select one race.</div>
       <div id="race-grid" class="choice-grid"></div>
-
       <div class="flow-footer">
         <button id="flow-back-start">BACK</button>
         <button id="race-next" class="primary-btn" disabled>CONTINUE</button>
@@ -47,10 +40,8 @@
       <div class="sigil">✦</div>
       <h2>CHOOSE YOUR CLASS</h2>
       <p>Your blood determines what you are. Your class determines how you fight.</p>
-
       <div id="bloodline-summary" class="selection-summary"></div>
       <div id="class-grid" class="choice-grid"></div>
-
       <div class="flow-footer">
         <button id="flow-back-race">BACK</button>
         <button id="enter-world" class="primary-btn" disabled>ENTER WORLD</button>
@@ -65,15 +56,17 @@
     <div class="loading-track"><div id="loading-fill"></div></div>
   </section>
 
-  <!-- ONLY SHOWN AFTER START -> BLOODLINE -> CLASS -> LOADING -->
   <main id="game-shell">
     <div id="world-art" aria-hidden="true">
-      <img id="world-background" src="./shattered_kingdom_world.jpeg?v=6" alt="">
+      <img id="world-background" src="./shattered_kingdom_world.jpeg?v=2" alt="">
       <div class="world-grade"></div>
       <div class="world-vignette"></div>
     </div>
 
-    <div id="walk-ground" aria-hidden="true"></div>
+    <div id="stone-bridge" aria-hidden="true">
+      <div class="bridge-lip"></div>
+      <div class="bridge-face"></div>
+    </div>
 
     <canvas id="game"></canvas>
 
@@ -94,16 +87,13 @@
       <button id="menu-inventory">INVENTORY</button>
     </div>
 
-    <!-- ACTUAL GAME CONTROLS -->
-    <section id="controls">
+    <section id="controls" aria-label="mobile controls">
       <div id="move-pad" class="pad"><div id="move-knob"></div></div>
       <button id="jump-btn" class="round jump">JUMP</button>
-
       <div id="combat-cluster">
         <button id="ability1-btn" class="small ability a1">I</button>
         <button id="ability2-btn" class="small ability a2">II</button>
         <button id="ability3-btn" class="small ability a3">III</button>
-
         <button id="attack-btn" class="small attack">ATK</button>
         <button id="block-btn" class="small block">BLK</button>
         <button id="heal-btn" class="small heal">HEAL</button>
@@ -114,15 +104,10 @@
     <div id="toast"></div>
   </main>
 
-  <!-- CHARACTER / INVENTORY MENU -->
-  <div id="rpgMenu">
+  <div id="rpgMenu" aria-hidden="true">
     <nav class="menuTop">
-      <button class="menuTab" data-page="inventory">INVENTORY</button>
       <button class="menuTab active" data-page="character">CHARACTER</button>
-      <button class="menuTab">LOADOUT</button>
-      <button class="menuTab">BLOODLINE</button>
-      <button class="menuTab">SKILLS</button>
-      <button class="menuTab">QUESTS</button>
+      <button class="menuTab" data-page="inventory">INVENTORY</button>
       <button id="menu-close" class="menuClose">×</button>
     </nav>
 
@@ -130,39 +115,25 @@
       <div class="charLayout">
         <div id="leftEquip" class="equipCol"></div>
         <div class="charCenter">
-          <canvas id="character-preview" class="knightPreviewCanvas" width="520" height="620" aria-label="Angel Knight equipment preview"></canvas>
-          <h2 id="bloodlineText"></h2>
-          <div id="bloodlineTier" class="bloodline"></div>
+          <img id="character-preview" alt="Angel Knight preview">
+          <h2 id="bloodlineText">ANGEL · KNIGHT</h2>
+          <div id="bloodlineTier" class="bloodline">FULL BLOODED</div>
         </div>
         <div id="rightEquip" class="equipCol"></div>
       </div>
       <div class="levelRow">LEVEL 1<div class="xpbar"><i></i></div></div>
-      <div class="statsPanel"><div id="statColumns" class="statColumns"></div></div>
+      <div id="statColumns" class="statColumns"></div>
     </main>
 
     <main id="inventoryPage" class="menuPage">
-      <div class="inventoryWrap">
-        <div class="filters">
-          <button class="filter active">All</button>
-          <button class="filter">Weapons</button>
-          <button class="filter">Armor</button>
-          <button class="filter">Accessories</button>
-          <button class="filter">Consumables</button>
-          <button class="filter">Materials</button>
-          <button class="filter">Quest Items</button>
-        </div>
-        <div class="inventoryBody">
-          <div id="invGrid" class="invGrid"></div>
-          <aside id="itemDetail" class="itemDetail"></aside>
-        </div>
+      <div class="inventoryBody">
+        <div id="invGrid" class="invGrid"></div>
+        <aside id="itemDetail" class="itemDetail"></aside>
       </div>
-      <div class="menuFooter">Equip · Drop · Compare · Sort · Back</div>
+      <div class="menuFooter">Equip · Compare · Sort · Back</div>
     </main>
   </div>
-
 </div>
-
-<script type="module" src="./main.js?v=7"></script>
-<script type="module" src="./characterPreview.js?v=7"></script>
+<script type="module" src="./main.js?v=2"></script>
 </body>
 </html>

@@ -1,35 +1,21 @@
-FRACTURED ANGEL KNIGHT v7 PATCH
+FRACTURED: THE DARKNESS — FLAT SERVER BUILD
 
-Fixes:
-1) Visible walkable ground aligned with the player's 75.5% ground physics.
-2) Sword/wing clipping and neighboring-frame bleed:
-   - 32 individual transparent PNG frames are included.
-   - Each frame is padded to 900x900 and aligned to one foot baseline.
-   - Gameplay no longer crops directly from the original sprite sheets.
-3) Character menu:
-   - Replaces the chess-horse placeholder with the actual animated Angel Knight.
-   - Includes an armor-overlay API for true armor visual swapping.
+This build is specifically made for uploaders that CANNOT upload folders.
 
-UPLOAD/REPLACE:
-- index.html
-- angelKnightSpriteRenderer.js
+UPLOAD EVERY FILE IN THIS ZIP DIRECTLY INTO THE SAME SERVER/REPOSITORY ROOT.
+Do not create folders.
 
-ADD:
-- v7-patch.css
-- characterPreview.js
-- entire angel_frames folder
+The 32 animation PNGs all have unique names:
+idle_0.png ... idle_3.png
+run_0.png ... run_3.png
+jump_0.png ... jump_3.png
+block_0.png ... block_3.png
+dodge_0.png ... dodge_3.png
+attack1_0.png ... attack1_3.png
+attack2_0.png ... attack2_3.png
+attack3_0.png ... attack3_3.png
 
-KEEP:
-- main.js
-- player.js
-- controls.js
-- creator.js
-- menu.js
-- game.css
-- menu.css
-- shattered_kingdom_world.jpeg
+renderer.js maps every animation state to those exact files.
+There is NO assets folder and NO angel_frames folder.
 
-IMPORTANT ABOUT ARMOR:
-The live character preview is active now. The code also supports true armor overlay files at:
-armor_visuals/<itemKey>.png
-The current repository does not yet contain separate art for each armor piece, so actual armor-shape swapping needs those overlay images.
+Keep index.html in the same directory as every JS, CSS, PNG, and JPEG file.
